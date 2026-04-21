@@ -1,101 +1,39 @@
-import { useRouter } from 'expo-router';
+// app/auth/welcome.tsx
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { XendLogo } from '../../components/xend/XendLogo';
+import { XendColors } from '../../constants/xend-theme';
 
 export default function WelcomeScreen() {
-  const router = useRouter();
-
   return (
     <View style={styles.container}>
-      {/* Upper section for the Logo */}
-      <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>XEND</Text>
+      <View style={styles.logoTop}>
+        <XendLogo />
       </View>
-
-      {/* Middle section for the text */}
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Crypto payments made easy</Text>
-        <Text style={styles.description}>
-          Experience the future of finance with secure and instant transactions.
-        </Text>
-      </View>
-
-      {/* Bottom section for buttons */}
-      <View style={styles.footer}>
-        <TouchableOpacity 
-          style={styles.loginButton} 
-          onPress={() => router.push('/auth/email')}
-        >
-          <Text style={styles.loginButtonText}>Login</Text>
+      
+      <View style={styles.bottomSection}>
+        <Text style={styles.heroText}>Secure your future with Xend Finance</Text>
+        <Text style={styles.subText}>The most secure way to save and invest in Africa.</Text>
+        
+        <TouchableOpacity style={styles.primaryBtn}>
+           <Text style={styles.btnText}>Create Account</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.signupButton}>
-          <Text style={styles.signupButtonText}>Create an account</Text>
+        
+        <TouchableOpacity style={styles.secondaryBtn}>
+           <Text style={[styles.btnText, {color: 'white'}]}>Login</Text>
         </TouchableOpacity>
       </View>
-        <TouchableOpacity style={styles.signupButton}>
-          <Text style={styles.signupButtonText}>Create an account</Text>
-        </TouchableOpacity>
-      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0A0E14', // Dark theme as per video
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  logoContainer: {
-    marginTop: 80,
-    alignItems: 'center',
-  },
-  logoText: {
-    color: '#29B6F6', // The primary blue mentioned in the tutorial
-    fontSize: 42,
-    fontWeight: 'bold',
-  },
-  textContainer: {
-    alignItems: 'center',
-  },
-  title: {
-    color: '#FFF',
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  description: {
-    color: '#888',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 15,
-    paddingHorizontal: 20,
-  },
-  footer: {
-    marginBottom: 40,
-  },
-  loginButton: {
-    backgroundColor: '#29B6F6',
-    padding: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  loginButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  signupButton: {
-    borderWidth: 1,
-    borderColor: '#1C2128',
-    padding: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  signupButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
+  container: { flex: 1, backgroundColor: '#000', justifyContent: 'space-between' },
+  logoTop: { marginTop: 100, alignItems: 'center' },
+  bottomSection: { padding: 30, marginBottom: 40 },
+  heroText: { color: 'white', fontSize: 32, fontWeight: 'bold', marginBottom: 15 },
+  subText: { color: '#888', fontSize: 16, marginBottom: 30 },
+  primaryBtn: { backgroundColor: XendColors.primaryBlue, padding: 18, borderRadius: 12, alignItems: 'center', marginBottom: 15 },
+  secondaryBtn: { borderWidth: 1, borderColor: '#333', padding: 18, borderRadius: 12, alignItems: 'center' },
+  btnText: { fontWeight: 'bold', fontSize: 16 }
 });

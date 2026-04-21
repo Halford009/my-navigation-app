@@ -1,27 +1,29 @@
-import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function XendLogo() {
+import { XendColors } from '@/constants/xend-theme';
+
+export function XendLogo({ compact }: { compact?: boolean }) {
   return (
-    <View style={styles.container}>
-      {/* Primary Blue 'X' and White 'end' as seen in the academy design */}
-      <Text style={styles.logoMain}>X<Text style={styles.logoSub}>end</Text></Text>
+    <View style={styles.row}>
+      <View style={styles.bars}>
+        <View style={[styles.bar, { height: compact ? 14 : 18, backgroundColor: XendColors.orange }]} />
+        <View style={[styles.bar, { height: compact ? 22 : 28, backgroundColor: '#8B5CF6' }]} />
+        <View style={[styles.bar, { height: compact ? 18 : 22, backgroundColor: XendColors.primaryBlue }]} />
+      </View>
+      <Text style={[styles.wordmark, compact && styles.wordmarkCompact]}>XEND Finance</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  bars: { flexDirection: 'row', alignItems: 'flex-end', gap: 3 },
+  bar: { width: 5, borderRadius: 2 },
+  wordmark: {
+    color: XendColors.text,
+    fontSize: 20,
+    fontWeight: '700',
+    letterSpacing: -0.3,
   },
-  logoMain: {
-    color: '#29B6F6', // Primary Blue
-    fontSize: 40,
-    fontWeight: '900',
-    letterSpacing: -1,
-  },
-  logoSub: {
-    color: '#FFFFFF', // White
-  },
+  wordmarkCompact: { fontSize: 17 },
 });

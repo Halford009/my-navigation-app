@@ -1,76 +1,93 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // 1. Added ScrollView
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function WalletScreen() {
   const [hideBalance, setHideBalance] = useState(false);
 
-  const assets = [
-    { id: '1', name: 'Bitcoin', symbol: 'BTC', balance: '0.0024', usd: '120.50', color: '#F7931A', icon: 'currency-btc' },
-    { id: '2', name: 'Ethereum', symbol: 'ETH', balance: '1.25', usd: '3,100.20', color: '#627EEA', icon: 'currency-eth' },
-    { id: '3', name: 'Tether', symbol: 'USDT', balance: '500.00', usd: '500.00', color: '#26A17B', icon: 'currency-usd' },
-    { id: '4', name: 'Solana', symbol: 'SOL', balance: '15.00', usd: '1,500.00', color: '#14F195', icon: 'currency-kzt' },
-    // Add more items here to test the scroll!
-  ];
-
   return (
-    // 2. Wrap the entire content in a ScrollView
-    <ScrollView 
-      style={styles.container} 
-      contentContainerStyle={styles.scrollContent}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={styles.walletCard}>
-        <View style={styles.balanceHeader}>
-          <Text style={styles.balanceLabel}>Total Balance</Text>
-          <TouchableOpacity onPress={() => setHideBalance(!hideBalance)}>
-            <Ionicons name={hideBalance ? "eye-off-outline" : "eye-outline"} size={20} color="#888" />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.balanceAmount}>{hideBalance ? "****.**" : "$3,720.70"}</Text>
-      </View>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#000'}}>
+      <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 100}}>
+        <Text style={styles.pageTitle}>Wallets</Text>
 
-      <Text style={styles.sectionTitle}>Your Assets</Text>
-      
-      {assets.map((asset) => (
-        <View key={asset.id} style={styles.assetItem}>
-          <View style={styles.assetLeft}>
-            <View style={[styles.iconCircle, { backgroundColor: asset.color + '20' }]}>
-              <MaterialCommunityIcons name={asset.icon as any} size={24} color={asset.color} />
-            </View>
-            <View style={styles.assetNames}>
-              <Text style={styles.assetName}>{asset.name}</Text>
-              <Text style={styles.assetSymbol}>{asset.symbol}</Text>
-            </View>
-          </View>
-          <View style={styles.assetRight}>
-            <Text style={styles.assetBalance}>{asset.balance}</Text>
-            <Text style={styles.assetUsd}>${asset.usd}</Text>
-          </View>
+        <View style={styles.blueCard}>
+           <View style={styles.cardTop}>
+              <Text style={styles.cardLabel}>My Asset Portfolio</Text>
+              <TouchableOpacity onPress={() => setHideBalance(!hideBalance)}>
+                <Ionicons name={hideBalance ? "eye-off" : "eye"} size={20} color="#FFF" />
+              </TouchableOpacity>
+           </View>
+           <Text style={styles.balanceText}>{hideBalance ? "$ **********" : "$ 12,480.22"}</Text>
         </View>
-      ))}
-    </ScrollView>
+
+        <View style={styles.actionsRow}>
+           <WalletAction icon="add" label="Add Fund" />
+           <WalletAction icon="arrow-down" label="Withdraw" />
+           <WalletAction icon="swap-horizontal" label="Swap" />
+           <WalletAction icon="document-text" label="Statement" />
+        </View>
+
+        <View style={styles.tabBar}>
+           <TouchableOpacity style={[styles.tab, styles.activeTab]}><Text style={styles.activeTabText}>Stablecoins</Text></TouchableOpacity>
+           <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Utility</Text></TouchableOpacity>
+           <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Memes 🔥</Text></TouchableOpacity>
+        </View>
+
+        <AssetItem name="CNGN" sub="Compliant Naira" amount="1,200.00" usd="≈ $1,200" color="#6366F1" initial="N" hide={hideBalance} />
+        <AssetItem name="USDT" sub="Tether USD" amount="1,200.00" usd="≈ $1,200" color="#10B981" initial="T" hide={hideBalance} />
+        <AssetItem name="USDC" sub="USD Coin" amount="1,200.00" usd="≈ $1,200" color="#2563EB" initial="$" hide={hideBalance} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
+const WalletAction = ({ icon, label }: any) => (
+  <View style={styles.actionItem}>
+    <View style={styles.actionIconBox}>
+      <Ionicons name={icon} size={24} color="#1A56DB" />
+    </View>
+    <Text style={styles.actionLabel}>{label}</Text>
+  </View>
+);
+
+const AssetItem = ({ name, sub, amount, usd, color, initial, hide }: any) => (
+  <View style={styles.assetRow}>
+    <View style={[styles.assetIcon, {backgroundColor: color}]}>
+      <Text style={styles.assetInitialText}>{initial}</Text>
+    </View>
+    <View style={{flex: 1}}>
+      <Text style={styles.assetName}>{name}</Text>
+      <Text style={styles.assetSub}>{sub}</Text>
+    </View>
+    <View style={{alignItems: 'flex-end'}}>
+      <Text style={styles.assetAmount}>{hide ? "******" : amount}</Text>
+      <Text style={styles.assetUsd}>{hide ? "*****" : usd}</Text>
+    </View>
+    <Ionicons name="chevron-forward" size={18} color="#444" style={{marginLeft: 10}} />
+  </View>
+);
+
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0A0E14' },
-  scrollContent: { 
-    padding: 20, 
-    paddingBottom: 100 // 3. IMPORTANT: Extra padding so the last item clears the taskbar
-  },
-  walletCard: { backgroundColor: '#1C2128', padding: 25, borderRadius: 20, marginTop: 40, marginBottom: 30 },
-  balanceHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  balanceLabel: { color: '#888', fontSize: 14 },
-  balanceAmount: { color: '#FFF', fontSize: 32, fontWeight: 'bold', marginVertical: 10 },
-  sectionTitle: { color: '#FFF', fontSize: 18, fontWeight: 'bold', marginBottom: 15 },
-  assetItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1C2128', padding: 15, borderRadius: 15, marginBottom: 12 },
-  assetLeft: { flexDirection: 'row', alignItems: 'center' },
-  iconCircle: { width: 45, height: 45, borderRadius: 22.5, justifyContent: 'center', alignItems: 'center' },
-  assetNames: { marginLeft: 15 },
-  assetName: { color: '#FFF', fontWeight: 'bold', fontSize: 16 },
-  assetSymbol: { color: '#888', fontSize: 12 },
-  assetRight: { alignItems: 'flex-end' },
-  assetBalance: { color: '#FFF', fontWeight: 'bold' },
-  assetUsd: { color: '#888', fontSize: 12 },
+  container: { flex: 1, padding: 20 },
+  pageTitle: { color: '#FFF', fontSize: 32, fontWeight: 'bold', marginBottom: 20 },
+  blueCard: { backgroundColor: '#1A56DB', borderRadius: 16, padding: 20, marginBottom: 25 },
+  cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  cardLabel: { color: '#FFF', fontSize: 14, opacity: 0.9 },
+  balanceText: { color: '#FFF', fontSize: 32, fontWeight: 'bold', marginTop: 15 },
+  actionsRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30 },
+  actionItem: { alignItems: 'center' },
+  actionIconBox: { width: 55, height: 55, backgroundColor: '#FFF', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
+  actionLabel: { color: '#FFF', fontSize: 11, marginTop: 8, fontWeight: '500' },
+  tabBar: { flexDirection: 'row', backgroundColor: '#1A1A1A', borderRadius: 25, padding: 5, marginBottom: 20 },
+  tab: { flex: 1, paddingVertical: 10, alignItems: 'center' },
+  activeTab: { backgroundColor: '#1A56DB', borderRadius: 20 },
+  tabText: { color: '#888', fontSize: 13 },
+  activeTabText: { color: '#FFF', fontSize: 13, fontWeight: 'bold' },
+  assetRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 20, borderBottomWidth: 0.5, borderBottomColor: '#222', paddingBottom: 15 },
+  assetIcon: { width: 45, height: 45, borderRadius: 23, justifyContent: 'center', alignItems: 'center', marginRight: 15 },
+  assetInitialText: { color: '#FFF', fontWeight: 'bold', fontSize: 18 },
+  assetName: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
+  assetSub: { color: '#888', fontSize: 12 },
+  assetAmount: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
+  assetUsd: { color: '#888', fontSize: 12 }
 });

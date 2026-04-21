@@ -51,3 +51,16 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+export const XendColors = {
+  primaryBlue: '#1A56DB',
+  background: '#000000',
+  cardBg: '#111827',
+  white: '#FFFFFF',
+  tabInactive: '#888888',
+  referralRing: '#FF4500',
+  orange: '#F97316',
+  purple: '#8B5CF6',
+  greenShield: '#10B981',
+  textMuted: '#9CA3AF',
+};

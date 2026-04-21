@@ -9,7 +9,6 @@ export default function EmailScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Back Button to go to Welcome */}
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Ionicons name="arrow-back" size={24} color="#FFF" />
       </TouchableOpacity>
@@ -33,7 +32,7 @@ export default function EmailScreen() {
 
       <TouchableOpacity 
         style={[styles.button, !email && styles.buttonDisabled]}
-        onPress={() => router.push('/auth/login')} // Moves to the password screen
+        onPress={() => router.push('/auth/login')}
         disabled={!email}
       >
         <Text style={styles.buttonText}>Continue</Text>
